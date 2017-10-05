@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">GameNews</string>
+    <string name="fragment_stories_title">STORIES</string>
+    <string name="fragment_video_title">VIDEO</string>
+    <string name="fragment_favourites_title">FAVOURITES</string>
+    <string name="news_activity_title">News</string>
+    <string name="news_load_url" translatable="false">http://owledge.ru/api/v1/feedNews?lang=en&amp;count=10&amp;sources=7,19,13,5,15,16,12,9,10012,10010,10013,10014,10019,10018,10011&amp;feedLineId=5</string>
+    <string name="news_sources_url">http://owledge.ru/api/v1/sources</string>
+    <string name="on_back_pressed_toast">Press back again to exit</string>
+    <string name="date_format_pattern">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
+    <string name="no_internet_connection">No internet connection</string>
+</resources>
