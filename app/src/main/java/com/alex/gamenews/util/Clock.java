@@ -10,15 +10,16 @@ public class Clock {
     public static String getTime(String date, String formatPattern) {
 
         SimpleDateFormat format = new SimpleDateFormat(formatPattern);
-        long difference, minutes, hours;
+        long dateMillis, difference, minutes, hours;
         long SECOND = 1000, MINUTE = 60 * SECOND, HOUR = 60 * MINUTE, DAY = 24 * HOUR;
 
         try {
-            difference = System.currentTimeMillis() - format.parse(date).getTime();
+            dateMillis = format.parse(date).getTime();
         } catch (Exception e) {
-            difference = 0;
+            dateMillis = System.currentTimeMillis();
         }
 
+        difference = System.currentTimeMillis() - dateMillis;
         if (difference < SECOND) return " - Just now";
         else if (difference >= SECOND && difference < MINUTE) return " - Last minute";
         else if (difference >= MINUTE && difference < HOUR) {
@@ -29,6 +30,6 @@ public class Clock {
             return " - " + (hours == 1 ? " an hour ago" : + hours + " hours ago");
         } else if (difference >= DAY && difference < 2 * DAY) {
             return " - Yesterday";
-        } else return " - " + DateFormat.format("dd.MM.yyyy", new Date(date)).toString();
+        } else return " - " + DateFormat.format("d MMM yyyy 'at' HH:mm", new Date(dateMillis)).toString();
     }
 }
