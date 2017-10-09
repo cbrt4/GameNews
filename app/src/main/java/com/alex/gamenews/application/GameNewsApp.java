@@ -24,7 +24,7 @@ public class GameNewsApp extends Application {
 
     public static void cancelAllLoads() {
         cancelNewsLoad();
-        // cancel other loads
+        // cancelLoad other loads
     }
 
     public static void resetNewsPresenter() {

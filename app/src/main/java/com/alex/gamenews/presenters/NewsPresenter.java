@@ -1,5 +1,6 @@
 package com.alex.gamenews.presenters;
 
+import com.alex.gamenews.interfaces.Loader;
 import com.alex.gamenews.interfaces.Presenter;
 import com.alex.gamenews.interfaces.Viewer;
 import com.alex.gamenews.loaders.NewsLoader;
@@ -9,7 +10,7 @@ public class NewsPresenter implements Presenter<NewsResponse> {
 
     private Viewer<NewsResponse> viewer;
     private NewsResponse newsResponse;
-    private NewsLoader loader;
+    private Loader loader;
     private boolean isLoading;
 
     private NewsPresenter() {}
@@ -39,14 +40,14 @@ public class NewsPresenter implements Presenter<NewsResponse> {
     public void loadData(String url) {
         if (newsResponse == null || newsResponse.getError() != null) {
             loader = new NewsLoader(url);
-            loader.execute();
+            loader.load();
         }
     }
 
     @Override
     public void cancelLoading() {
         if (isLoading)
-            loader.cancel(true);
+            loader.cancelLoad();
     }
 
     @Override
