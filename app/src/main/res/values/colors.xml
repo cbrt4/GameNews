@@ -6,4 +6,5 @@
     <color name="newsListDividerColor">#ECECEC</color>
     <color name="sliderIndicatorColor">#636363</color>
     <color name="textDateColor">#959595</color>
+    <color name="colorTransparent">#00000000</color>
 </resources>

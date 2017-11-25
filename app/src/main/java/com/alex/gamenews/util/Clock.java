@@ -4,12 +4,13 @@ import android.text.format.DateFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Clock {
 
     public static String getTime(String date, String formatPattern) {
 
-        SimpleDateFormat format = new SimpleDateFormat(formatPattern);
+        SimpleDateFormat format = new SimpleDateFormat(formatPattern, Locale.getDefault());
         long dateMillis, difference, minutes, hours;
         long SECOND = 1000, MINUTE = 60 * SECOND, HOUR = 60 * MINUTE, DAY = 24 * HOUR;
 

@@ -1,10 +1,11 @@
 package com.alex.gamenews.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.alex.gamenews.entities.NewsEntity;
 import com.alex.gamenews.interfaces.Presenter;
 import com.alex.gamenews.interfaces.Viewer;
 import com.alex.gamenews.responses.NewsResponse;
+import com.alex.gamenews.util.FlexibleIndicatorAdapter;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class NewsFragment extends Fragment implements Viewer<NewsResponse> {
 
     private View topNews;
     private ViewPager topNewsPager;
-    private TabLayout topNewsIndicator;
+    private RecyclerView indicatorRecycler;
     private ListView newsListView;
     private ProgressBar roundProgressBar;
 
@@ -40,7 +42,7 @@ public class NewsFragment extends Fragment implements Viewer<NewsResponse> {
 
         topNewsPager = topNews.findViewById(R.id.top_news_slider);
 
-        topNewsIndicator = topNews.findViewById(R.id.top_news_indicator);
+        indicatorRecycler = topNews.findViewById(R.id.indicator_recycler);
 
         newsListView = rootView.findViewById(R.id.news_list);
 
@@ -72,7 +74,8 @@ public class NewsFragment extends Fragment implements Viewer<NewsResponse> {
     private void fillTopNews(List<NewsEntity> topNewsList) {
         PagerAdapter topNewsPagerAdapter = new TopNewsPagerAdapter(this.getContext(), topNewsList);
         topNewsPager.setAdapter(topNewsPagerAdapter);
-        topNewsIndicator.setupWithViewPager(topNewsPager);
+        indicatorRecycler.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        indicatorRecycler.setAdapter(new FlexibleIndicatorAdapter(indicatorRecycler, topNewsPager, 3));
         newsListView.addHeaderView(topNews);
     }
 
@@ -99,6 +102,7 @@ public class NewsFragment extends Fragment implements Viewer<NewsResponse> {
         else {
             if (!result.getTopNewsList().isEmpty())
                 fillTopNews(result.getTopNewsList());
+            else fillTopNews(result.getNewsList());
 
             fillNews(result.getNewsList());
         }
