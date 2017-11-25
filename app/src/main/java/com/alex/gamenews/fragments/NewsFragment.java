@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -76,6 +77,13 @@ public class NewsFragment extends Fragment implements Viewer<NewsResponse> {
         topNewsPager.setAdapter(topNewsPagerAdapter);
         indicatorRecycler.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
         indicatorRecycler.setAdapter(new FlexibleIndicatorAdapter(indicatorRecycler, topNewsPager, 3));
+        indicatorRecycler.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            // Stop only scrolling.
+            return rv.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING;
+        }
+    });
         newsListView.addHeaderView(topNews);
     }
 
