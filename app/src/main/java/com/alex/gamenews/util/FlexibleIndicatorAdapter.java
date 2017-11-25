@@ -18,18 +18,17 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
     private ViewPager viewPager;
     private int caretStart;
     private int caretEnd;
-    private int caretSize;
     private int count;
     private int selectedPosition;
 
     public FlexibleIndicatorAdapter(RecyclerView recyclerView, ViewPager viewPager, int caretSize) {
         this.recyclerView = recyclerView;
         this.viewPager = viewPager;
-        this.caretSize = caretSize - 1;
 
         caretStart = viewPager.getCurrentItem();
-        caretEnd = viewPager.getCurrentItem() + this.caretSize;
+        caretEnd = viewPager.getCurrentItem() + caretSize - 1;
         count = viewPager.getAdapter().getCount();
+
         moveCaret(viewPager.getCurrentItem());
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -92,10 +91,10 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
     private void moveCaret(int position) {
         int difference = position > caretEnd ? position - caretEnd :
                 (position < caretStart ? position - caretStart : 0);
-        caretStart += difference;
-        caretEnd += difference;
-        recyclerView.smoothScrollBy(((recyclerView.getWidth() +
-                recyclerView.getPaddingStart() +
-                recyclerView.getPaddingEnd()) / count) * difference, 0);
+        if (difference != 0) {
+            caretStart += difference;
+            caretEnd += difference;
+            recyclerView.smoothScrollBy(((recyclerView.getWidth() + recyclerView.getPaddingStart() + recyclerView.getPaddingEnd()) / count) * difference, 0);
+        }
     }
 }
