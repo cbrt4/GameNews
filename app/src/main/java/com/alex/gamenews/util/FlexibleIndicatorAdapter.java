@@ -17,8 +17,8 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
 
     private RecyclerView recyclerView;
     private ViewPager viewPager;
-    private int totalCount;
     private int visibleCount;
+    private int totalCount;
     private int cursorStart;
     private int cursorEnd;
     private int selectedPosition;
@@ -28,8 +28,8 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
         this.viewPager = viewPager;
 
         int cursorSize = 2;
-        totalCount = viewPager.getAdapter().getCount();
         visibleCount = 7;
+        totalCount = viewPager.getAdapter().getCount();
         cursorStart = viewPager.getCurrentItem();
         cursorEnd = viewPager.getCurrentItem() + cursorSize;
 
@@ -109,7 +109,7 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
         if (bias != 0) {
             cursorStart += bias;
             cursorEnd += bias;
-            recyclerView.smoothScrollBy((recyclerView.getWidth() / visibleCount + 1) * bias, 0);
+            recyclerView.smoothScrollBy((int) Math.round(Double.valueOf(recyclerView.getWidth()) / Double.valueOf(visibleCount)) * bias, 0);
         }
     }
 }

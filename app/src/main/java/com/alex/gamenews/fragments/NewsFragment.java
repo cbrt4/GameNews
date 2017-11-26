@@ -104,6 +104,13 @@ public class NewsFragment extends Fragment implements Viewer<NewsResponse> {
             if (!result.getTopNewsList().isEmpty())
                 fillTopNews(result.getTopNewsList());
             else fillTopNews(result.getNewsList());
+            /*{
+                List<NewsEntity> newsEntities = result.getNewsList();
+                for (int i = 0; i < 5; i++) {
+                    newsEntities.addAll(newsEntities);
+                }
+                fillTopNews(newsEntities);
+            }*/
 
             fillNews(result.getNewsList());
         }
