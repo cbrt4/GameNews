@@ -16,15 +16,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/indicator_recycler"
-        android:layout_width="98dp"
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="24dp"
-        android:clipToPadding="false"
-        android:paddingEnd="28dp"
-        android:paddingStart="28dp"
+        android:background="@android:color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_news_slider" />
+        app:layout_constraintTop_toBottomOf="@+id/top_news_slider" >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/indicator_recycler"
+            android:layout_width="98dp"
+            android:layout_height="24dp"
+            android:clipToPadding="false"
+            android:paddingEnd="28dp"
+            android:paddingStart="28dp"
+            android:layout_gravity="center_horizontal"/>
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

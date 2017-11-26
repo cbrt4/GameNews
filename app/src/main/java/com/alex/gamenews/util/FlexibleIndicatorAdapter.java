@@ -3,6 +3,7 @@ package com.alex.gamenews.util;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,20 +17,21 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
 
     private RecyclerView recyclerView;
     private ViewPager viewPager;
-    private int caretStart;
-    private int caretEnd;
-    private int count;
+    private int totalCount;
+    private int visibleCount;
+    private int cursorStart;
+    private int cursorEnd;
     private int selectedPosition;
 
-    public FlexibleIndicatorAdapter(RecyclerView recyclerView, ViewPager viewPager, int caretSize) {
+    public FlexibleIndicatorAdapter(RecyclerView recyclerView, ViewPager viewPager) {
         this.recyclerView = recyclerView;
         this.viewPager = viewPager;
 
-        caretStart = viewPager.getCurrentItem();
-        caretEnd = viewPager.getCurrentItem() + caretSize - 1;
-        count = viewPager.getAdapter().getCount();
-
-        moveCaret(viewPager.getCurrentItem());
+        int cursorSize = 2;
+        totalCount = viewPager.getAdapter().getCount();
+        visibleCount = 7;
+        cursorStart = viewPager.getCurrentItem();
+        cursorEnd = viewPager.getCurrentItem() + cursorSize;
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -40,7 +42,7 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
             @Override
             public void onPageSelected(int position) {
                 selectedPosition = position;
-                moveCaret(selectedPosition);
+                moveCursor(selectedPosition);
                 notifyDataSetChanged();
             }
 
@@ -49,6 +51,16 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
 
             }
         });
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+                // Stop only scrolling.
+                return recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING;
+            }
+        });
+
+        moveCursor(viewPager.getCurrentItem());
         notifyDataSetChanged();
     }
 
@@ -67,7 +79,7 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
 
     @Override
     public int getItemCount() {
-        return count;
+        return totalCount;
     }
 
     class FlexibleIndicatorViewHolder extends RecyclerView.ViewHolder {
@@ -75,26 +87,29 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
         @BindView(R.id.indicator)
         ImageView indicator;
 
-        public FlexibleIndicatorViewHolder(View itemView) {
+        FlexibleIndicatorViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         void bindData(int index) {
-            if (index >= caretStart && index <= caretEnd) indicator.setImageResource(R.drawable.tab_selector);
-            else if (index == caretStart - 1 || index == caretEnd + 1) indicator.setImageResource(R.drawable.dot_medium);
-            else if (index == caretStart - 2 || index == caretEnd + 2) indicator.setImageResource(R.drawable.dot_small);
+            if (index >= cursorStart && index <= cursorEnd)
+                indicator.setImageResource(R.drawable.tab_selector);
+            else if (index == cursorStart - 1 || index == cursorEnd + 1)
+                indicator.setImageResource(R.drawable.dot_medium);
+            else if (index == cursorStart - 2 || index == cursorEnd + 2)
+                indicator.setImageResource(R.drawable.dot_small);
             else indicator.setImageResource(R.color.colorTransparent);
         }
     }
 
-    private void moveCaret(int position) {
-        int difference = position > caretEnd ? position - caretEnd :
-                (position < caretStart ? position - caretStart : 0);
-        if (difference != 0) {
-            caretStart += difference;
-            caretEnd += difference;
-            recyclerView.smoothScrollBy(((recyclerView.getWidth() + recyclerView.getPaddingStart() + recyclerView.getPaddingEnd()) / count) * difference, 0);
+    private void moveCursor(int position) {
+        int bias = position > cursorEnd ? position - cursorEnd :
+                (position < cursorStart ? position - cursorStart : 0);
+        if (bias != 0) {
+            cursorStart += bias;
+            cursorEnd += bias;
+            recyclerView.smoothScrollBy((recyclerView.getWidth() / visibleCount + 1) * bias, 0);
         }
     }
 }

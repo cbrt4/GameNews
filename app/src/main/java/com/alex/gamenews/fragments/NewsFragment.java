@@ -76,14 +76,7 @@ public class NewsFragment extends Fragment implements Viewer<NewsResponse> {
         PagerAdapter topNewsPagerAdapter = new TopNewsPagerAdapter(this.getContext(), topNewsList);
         topNewsPager.setAdapter(topNewsPagerAdapter);
         indicatorRecycler.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        indicatorRecycler.setAdapter(new FlexibleIndicatorAdapter(indicatorRecycler, topNewsPager, 3));
-        indicatorRecycler.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            // Stop only scrolling.
-            return rv.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING;
-        }
-    });
+        indicatorRecycler.setAdapter(new FlexibleIndicatorAdapter(indicatorRecycler, topNewsPager));
         newsListView.addHeaderView(topNews);
     }
 
