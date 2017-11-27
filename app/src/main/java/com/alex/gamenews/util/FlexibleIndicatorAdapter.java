@@ -84,9 +84,6 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
 
     class FlexibleIndicatorViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.indicator)
-        ImageView indicator;
-
         FlexibleIndicatorViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -94,12 +91,12 @@ public class FlexibleIndicatorAdapter extends RecyclerView.Adapter<FlexibleIndic
 
         void bindData(int index) {
             if (index >= cursorStart && index <= cursorEnd)
-                indicator.setImageResource(R.drawable.tab_selector);
+                itemView.setBackgroundResource(R.drawable.tab_selector);
             else if (index == cursorStart - 1 || index == cursorEnd + 1)
-                indicator.setImageResource(R.drawable.dot_medium);
+                itemView.setBackgroundResource(R.drawable.dot_medium);
             else if (index == cursorStart - 2 || index == cursorEnd + 2)
-                indicator.setImageResource(R.drawable.dot_small);
-            else indicator.setImageResource(R.color.colorTransparent);
+                itemView.setBackgroundResource(R.drawable.dot_small);
+            else itemView.setBackgroundResource(R.color.colorTransparent);
         }
     }
 
